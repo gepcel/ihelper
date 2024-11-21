@@ -10,6 +10,7 @@ ihelper: A spyder plugin to get help information from ipython console in editor.
 import re
 from qtpy.QtCore import Qt
 from qtpy.QtGui import QTextCursor
+import qtawesome as qta
 
 # Local imports
 from spyder.api.plugins import Plugins, SpyderPluginV2
@@ -17,6 +18,7 @@ from spyder.api.plugin_registration.decorators import on_plugin_available
 # from spyder.api.translations import get_translation
 from spyder.plugins.mainmenu.api import ApplicationMenus
 from spyder.py3compat import to_text_string
+from spyder.utils.icon_manager import ima
 
 from ihelper.spyder.container import IHelperWidgetsContainer
 from ihelper.spyder.api import IHelperActions, IHelperToolbarSections
@@ -36,8 +38,13 @@ class IHelper(SpyderPluginV2):
     def get_name():
         return "ihelper"
 
-    def get_description(self):
+    @staticmethod
+    def get_description():
         return "A spyder plugin to get help information from ipython console in editor."
+
+    @classmethod
+    def get_icon(cls):
+        return qta.icon('mdi.speedometer', color=ima.MAIN_FG_COLOR)
 
     def on_initialize(self):
         container = self.get_container()
