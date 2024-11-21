@@ -8,4 +8,4 @@
 ihelper: A spyder plugin to get help information from ipython console in editor.
 """
 
-__version__ = "0.1"
+__version__ = "0.1.1.dev0"
