@@ -38,7 +38,7 @@ class IHelperWidgetsContainer(PluginMainContainer):
         self.status_widget = IHelperStatusWidget(self)
         self.status_widget.set_value('ihelper:ok')
 
-        self.toolbar_widget = IHelperToolbarWidget(self, "IHelper toolbar")
+        self.toolbar_widget = IHelperToolbarWidget(self, "IHelper toolbar", "IHelper toolbar")
         self.toolbar_widget.sig_toolbar_click.connect(self.sig_toolbar_click)
 
         self.toolbar_click_action = self.create_action(
@@ -54,6 +54,15 @@ class IHelperWidgetsContainer(PluginMainContainer):
             self.toolbar_widget,
             section=IHelperToolbarSections.First,
         )
+
+        # self.create_action(
+        #     IHelperActions.ShortcutAction,            
+        #     icon=self.create_icon('MessageBoxInformation'), 
+        #     text="Request help from console",
+        #     tip="Request help from console",
+        #     triggered=self.inspect_current_object_via_console,
+        #     register_shortcut=True,
+        # )
 
     def update_actions(self):
         pass
