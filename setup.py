@@ -13,7 +13,7 @@ import os
 
 def get_version():
     with open("ihelper/__init__.py", encoding='utf-8') as f:
-        lines = [l for l in f.readl().splitlines() if "__version__" in l]
+        lines = [l for l in f.read().splitlines() if "__version__" in l]
         if lines:
             version = lines[0].split("=")[1].strip()
             version = version.replace("'", '').replace('"', '')
