@@ -14,7 +14,10 @@ import qtawesome as qta
 
 # Local imports
 from spyder.api.plugins import Plugins, SpyderPluginV2
-from spyder.api.plugin_registration.decorators import on_plugin_available
+from spyder.api.plugin_registration.decorators import (
+    on_plugin_available,
+    on_plugin_teardown,
+)
 # from spyder.api.translations import get_translation
 from spyder.plugins.mainmenu.api import ApplicationMenus
 from spyder.py3compat import to_text_string
@@ -29,7 +32,7 @@ class IHelper(SpyderPluginV2):
     # WIDGET_CLASS = IHelperWidgets
     CONF_SECTION = NAME
     # CONF_WIDGET_CLASS = PylintConfigPage
-    REQUIRES = [Plugins.StatusBar, Plugins.Editor, Plugins.MainMenu, Plugins.Toolbar]
+    REQUIRES = [Plugins.StatusBar, Plugins.Editor, Plugins.MainMenu, Plugins.Toolbar, Plugins.Preferences]
     CONTAINER_CLASS = IHelperWidgetsContainer
     # CONF_FILE = False
     DISABLE_ACTIONS_WHEN_HIDDEN = False
@@ -47,6 +50,7 @@ class IHelper(SpyderPluginV2):
         return qta.icon('mdi.speedometer', color=ima.MAIN_FG_COLOR)
 
     def on_initialize(self):
+        # widget = self.get_widget()
         container = self.get_container()
         # container.sig_request_ihelp.connect(self.inspect_current_object_via_console)
         container.sig_toolbar_click.connect(
@@ -57,7 +61,7 @@ class IHelper(SpyderPluginV2):
             tip="Request help from console",
             triggered=self.inspect_current_object_via_console,
             register_shortcut=True,
-            context=Qt.WindowShortcut
+            context=Qt.WidgetShortcut
         )
         ihelper_action.setEnabled(True)
 
@@ -72,13 +76,28 @@ class IHelper(SpyderPluginV2):
     def on_statusbar_available(self):
         container = self.get_container()
         statusbar = self.get_plugin(Plugins.StatusBar)
+        # statusbar.add_status_widget(container.status_widget)
+        # widget = self.get_widget()
         statusbar.add_status_widget(container.status_widget)
+        print("ihelper show statusbar")
 
     @on_plugin_available(plugin=Plugins.Toolbar)
     def on_toolbvar_available(self):
+        # widget = self.get_widget()
         container = self.get_container()
         toolbar = self.get_plugin(Plugins.Toolbar)
         toolbar.add_application_toolbar(container.toolbar_widget)
+
+    @on_plugin_available(plugin=Plugins.Preferences)
+    def on_preferences_available(self):
+        preferences = self.get_plugin(Plugins.Preferences)
+        preferences.register_plugin_preferences(self)
+
+    @on_plugin_teardown(plugin=Plugins.Preferences)
+    def on_preferences_teardown(self):
+        preferences = self.get_plugin(Plugins.Preferences)
+        preferences.deregister_plugin_preferences(self)
+
 
     def inspect_current_object_via_console(self, debug=False):
         self.editor = self.get_plugin(Plugins.Editor).get_current_editor()
