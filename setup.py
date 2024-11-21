@@ -9,19 +9,25 @@ ihelper: A spyder plugin to get help information from ipython console in editor.
 """
 from setuptools import find_packages
 from setuptools import setup
+import os
 
-# from ihelper import __version__
-
+def get_version():
+    with open("ihelper/__init__.py", encoding='utf-8') as f:
+        lines = [l for l in f.read().splitlines() if "__version__" in l]
+        if lines:
+            version = lines[0].split("=")[1].strip()
+            version = version.replace("'", '').replace('"', '')
+            return version
 
 setup(
     # See: https://setuptools.readthedocs.io/en/latest/setuptools.html
     name="ihelper",
-    version=0.1,
+    version=get_version(),
     author="gepcel",
     author_email="gepcelway@gmail.com",
     description="A spyder plugin to get help information from ipython console in editor.",
     license="MIT license",
-    url="",
+    url="https://github.com/gepcel/ihelper",
     python_requires='>= 3.7',
     install_requires=[
         "qtpy",
