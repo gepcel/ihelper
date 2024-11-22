@@ -24,7 +24,7 @@ from spyder.py3compat import to_text_string
 from spyder.utils.icon_manager import ima
 
 from ihelper.spyder.container import IHelperWidgetsContainer
-from ihelper.spyder.api import IHelperActions, IHelperToolbarSections
+from ihelper.spyder.api import IHelperActions
 
 
 class IHelper(SpyderPluginV2):
@@ -59,10 +59,9 @@ class IHelper(SpyderPluginV2):
         ihelper_action = self.create_action(
             IHelperActions.ShortcutAction,
             text="Request help from console",
-            tip="Request help from console",
+            icon=self.create_icon('MessageBoxInformation'),
             triggered=self.inspect_current_object_via_console,
             register_shortcut=True,
-            context=Qt.WidgetShortcut
         )
         ihelper_action.setEnabled(True)
 
