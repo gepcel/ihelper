@@ -55,6 +55,7 @@ class IHelper(SpyderPluginV2):
         # container.sig_request_ihelp.connect(self.inspect_current_object_via_console)
         container.sig_toolbar_click.connect(
             lambda: self.inspect_current_object_via_console(debug=True))
+        container.status_widget.sig_clicked.connect(self.inspect_current_object_via_console)
         ihelper_action = self.create_action(
             IHelperActions.ShortcutAction,
             text="Request help from console",
@@ -74,12 +75,9 @@ class IHelper(SpyderPluginV2):
 
     @on_plugin_available(plugin=Plugins.StatusBar)
     def on_statusbar_available(self):
-        container = self.get_container()
+        container = self.get_container()        
         statusbar = self.get_plugin(Plugins.StatusBar)
-        # statusbar.add_status_widget(container.status_widget)
-        # widget = self.get_widget()
-        statusbar.add_status_widget(container.status_widget)
-        print("ihelper show statusbar")
+        statusbar.add_status_widget(container.status_widget)        
 
     @on_plugin_available(plugin=Plugins.Toolbar)
     def on_toolbvar_available(self):
