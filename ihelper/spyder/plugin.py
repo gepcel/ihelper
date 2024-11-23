@@ -29,12 +29,9 @@ from ihelper.spyder.api import IHelperActions
 
 class IHelper(SpyderPluginV2):
     NAME = "ihelper"
-    # WIDGET_CLASS = IHelperWidgets
     CONF_SECTION = NAME
-    # CONF_WIDGET_CLASS = PylintConfigPage
     REQUIRES = [Plugins.StatusBar, Plugins.Editor, Plugins.MainMenu, Plugins.Toolbar, Plugins.Preferences]
     CONTAINER_CLASS = IHelperWidgetsContainer
-    # CONF_FILE = False
     DISABLE_ACTIONS_WHEN_HIDDEN = False
 
     @staticmethod
@@ -50,9 +47,7 @@ class IHelper(SpyderPluginV2):
         return qta.icon('mdi.speedometer', color=ima.MAIN_FG_COLOR)
 
     def on_initialize(self):
-        # widget = self.get_widget()
         container = self.get_container()
-        # container.sig_request_ihelp.connect(self.inspect_current_object_via_console)
         container.sig_toolbar_click.connect(
             lambda: self.inspect_current_object_via_console(debug=True))
         container.status_widget.sig_clicked.connect(self.inspect_current_object_via_console)
@@ -62,6 +57,7 @@ class IHelper(SpyderPluginV2):
             icon=self.create_icon('MessageBoxInformation'),
             triggered=self.inspect_current_object_via_console,
             register_shortcut=True,
+            context=Qt.ApplicationShortcut
         )
         ihelper_action.setEnabled(True)
 
@@ -119,7 +115,6 @@ class IHelper(SpyderPluginV2):
         Return current word, i.e. word at cursor position, and the start
         position.
         """
-        # cursor = self.editor.textCursor()
         cursor_pos = cursor.position()
 
         if cursor.hasSelection():
