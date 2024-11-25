@@ -28,10 +28,10 @@ With the cursor at the method in the editor, click the `ihelper:ok` in the statu
 
 ### 3. Pressing a shortcut key. 
 
-This plugin registers a function into `Keyboard shortcuts` in preference of spyder, called `request help from console`, without a shortcut. You need to assign one manually, `Alt + I` for example. The with cursor at the method in the editor, pressing `Alt + I`, you'll get the doc.
+This plugin registers a function into `Keyboard shortcuts` in preference of spyder, called `request help from console`, without a shortcut. You need to assign one manually, `Alt + I` for example. Then with cursor at the method in the editor, pressing `Alt + I`, you'll get the doc.
 
 ![image](https://github.com/user-attachments/assets/02639247-fc1a-4b72-9698-a0c6e75c351e)
 
 ## How to install?
 
-Download the code, navigate to the directory, then `pip install .`
+Download the code, navigate to the directory, then `pip install -e .`
